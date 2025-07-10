@@ -116,7 +116,7 @@ function Header() {
               </Nav>
            <div className="d-none d-lg-flex align-items-center fw-bold text-nowrap text-white">
   <BsTelephone size={16} className="me-2" />
-  +91 90473 73960
+  +919884455605
 </div>
             </Navbar.Collapse>
           </Container>

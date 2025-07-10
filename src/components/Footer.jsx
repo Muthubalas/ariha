@@ -33,30 +33,30 @@ function Footer() {
                  </Col>
              
                  <Col xs={12} md={2} >
-                 <h5 className='fw-semibold pb-2 text-uppercase'> QUICK LINK</h5>
+                 <h5 className='fw-semibold pb-2 text-uppercase'> Quick Links</h5>
                  <p><Link to="/">Home</Link></p>
                           <p><Link to="/service">Shop</Link></p>
                            <p><Link to="/contact">About Us</Link></p>
-                           <p><Link to="/contact">Contact</Link></p>
+                           <p><Link to="/contact">Contact Us</Link></p>
                  </Col>
                        <Col xs={12} md={2} >
-                         <h5 className='fw-semibold pb-2 text-uppercase'> PRODUCTS</h5>
-               <p><Link to="/">Home</Link></p>
-                          <p><Link to="/service">Shop</Link></p>
-                           <p><Link to="/contact">About Us</Link></p>
-                           <p><Link to="/contact">Contact</Link></p>
+                         <h5 className='fw-semibold pb-2 text-uppercase'> Categories</h5>
+               <p><Link to="/">Brownies</Link></p>
+                          <p><Link to="/service">Buns & Loaves</Link></p>
+                           <p><Link to="/contact">Muffins</Link></p>
+                           <p><Link to="/contact">Pizza Bases</Link></p>
                  </Col>
                      <Col xs={12} md={4}>
-                <h5 className='fw-semibold pb-2 text-uppercase'> Reach us</h5>
+                <h5 className='fw-semibold pb-2 text-uppercase'> Get in Touch</h5>
+                
+                 <div className='d-flex justify-content-start pb-2'>
+<LuPhone size={24} className=' me-2 '/>+91 98844 55605
+                </div>
                 <div className='d-flex justify-content-start pb-2'>
-<CiMail size={24} className=' me-2 '/>rainbowmedia1123@gmail.com
+<CiMail size={24} className=' me-2 '/>arihafoods@gmail.com
                 </div>
                  <div className='d-flex justify-content-start pb-2'>
-<LuPhone size={24} className=' me-2 '/>+91 73058 21333
-                </div>
-                 <div className='d-flex justify-content-start pb-2'>
-<LuMapPinCheckInside size={24} className=' me-2 '/>Old.No. 83, New no.112, <br></br>2nd floor, Anna salai,<br></br> Guindy, Chennai-600032<br></br>
-Landmark: Before street of Klase hotel
+<LuMapPinCheckInside size={24} className=' me-2 '/>MIG 156B, 6th Main Rd,<br></br> West, Nolambur, Mogappair, <br></br>Chennai, Tamil Nadu, 600037
                 </div>
                    </Col> 
             </Row>

@@ -245,3 +245,35 @@
   height: auto;
   object-fit: contain;
 }
+.swiper-button-next:after,.swiper-button-prev:after{
+  color: #FFFFFF;
+}
+.shop-now-button {
+  background-color: #090909;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 30px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.shop-now-button:hover {
+  background-color: #090909;
+  transform: scale(1.05);
+}
+
+.shop-now-button .arrow {
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.shop-now-button:hover .arrow {
+  transform: translateX(5px);
+}

@@ -1,4 +1,5 @@
 import React,{useEffect,useState} from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../assets/css/home.css';
 import banner from '../assets/images/banner.webp';
 import Button from 'react-bootstrap/Button';
@@ -56,15 +57,17 @@ import logo21 from '../assets/images/logo21.png';
 import logo22 from '../assets/images/logo22.png';
 
 import { getAllProducts } from '../services/postService';
+import { getAllPosts } from '../services/postService';
 import { IoBagHandleOutline } from "react-icons/io5";
 import { useCart } from './context/Cart';
 import { Link } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { EffectFade, Autoplay ,Pagination } from 'swiper/modules';
+import { EffectFade, Autoplay ,Pagination,Navigation  } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/effect-fade';
 import 'swiper/css/autoplay';
 import 'swiper/css/pagination';
+import 'swiper/css/navigation';
 
 function Home() {
   const [products, setProducts] = useState([]);
@@ -72,7 +75,7 @@ function Home() {
   const [addedItems, setAddedItems] = useState(new Set());
   const { addToCart } = useCart();
    const [selectedProduct, setSelectedProduct] = useState(null);
-
+const api1="https://backendapi.memoriessalon.in/list-blog"
   const product = [
     {
       id: 1,
@@ -142,7 +145,25 @@ sortedProducts.forEach((item) => {
     seenCategories.add(categoryKey);
   }
 });
+ const[blogs,setBlogs]=useState([]);
+  const navigate=useNavigate();
+      const recentBlogs = [...blogs]
+      .sort((a, b) => new Date(b.date) - new Date(a.date))
+      .slice(0, 12);
+    useEffect(()=>{
+   getAllPosts()
+   .then((response) => {
+      console.log("datas ===>", response.data);
+      setBlogs(response.data);
+    })
+   
+    .catch(console.error);
+    },[])
 
+    const handleReadMore=(id)=>{
+      console.log("id",id)
+  navigate(`/blogs/${id}`);
+    }
 
 const imgpath="http://localhost:5000"
 
@@ -431,22 +452,23 @@ const imgpath="http://localhost:5000"
       </Row>
 </Container>
 </div>
-<Container>
-   <Swiper
+ <Container>
+      <Swiper
         slidesPerView={3}
         spaceBetween={30}
-        pagination={{
-          clickable: true,
-        }}
-        modules={[Pagination]}
+        navigation={true}
+        modules={[Navigation]}
         className="mySwiper"
       >
-        <SwiperSlide><img src={slides1} alt="" /></SwiperSlide>
-        <SwiperSlide><img src={slides2} alt="" /></SwiperSlide>
-        <SwiperSlide><img src={slides3} alt="" /></SwiperSlide>
-        
+        <SwiperSlide><img src={slides1} alt="Slide 1" /></SwiperSlide>
+        <SwiperSlide><img src={slides2} alt="Slide 2" /></SwiperSlide>
+        <SwiperSlide><img src={slides3} alt="Slide 3" /></SwiperSlide>
+        <SwiperSlide><img src={slides1} alt="Slide 1" /></SwiperSlide>
+        <SwiperSlide><img src={slides2} alt="Slide 2" /></SwiperSlide>
+        <SwiperSlide><img src={slides3} alt="Slide 3" /></SwiperSlide>
       </Swiper>
-</Container>
+    </Container>
+
 {/* <Container className='cards'>
   <h2>Trending Now</h2>
 <Row className='cardsrow'>
@@ -589,9 +611,13 @@ const imgpath="http://localhost:5000"
     </span>
     <span className="fs-5 queshead">Trusted by Thousands</span>
   </div>
+ 
   <p className="mb-0 ms-5 quespara">Supplying to homes, cafes, and kitchens nationwide.</p>
 </li>
    </ul>
+    <button className="shop-now-button">
+  Shop Now <span className="arrow">→</span>
+</button>
 
         </Col>
       </Row>
@@ -706,7 +732,28 @@ const imgpath="http://localhost:5000"
   </Row>
 </Container>
     </div>
-    
+    {/* ----Blog */}
+    <Container className='my-5'>
+        <h2 className='text-center'>Latest Blogs </h2>
+       <Row className='blogcard'>
+  {recentBlogs.map((item,index)=>(
+        <Col xs={12} md={3} key={index} className=' mt-3'>
+          <Card >
+     
+      <Card.Body>
+        <Card.Title>{item.title}</Card.Title>
+        <Card.Text>{item.meta_description} </Card.Text>
+         <Button variant=" blackbutton" id='blackbutton' onClick={()=>handleReadMore(item._id)}>Read more</Button>
+      </Card.Body>
+    </Card>
+        </Col>
+         ))}
+      </Row>
+    </Container>
+
+
+
+
  <Container id="logocontainer" className='my-5'>
   <Swiper
     modules={[Autoplay]}
