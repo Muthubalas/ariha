@@ -277,3 +277,12 @@
 .shop-now-button:hover .arrow {
   transform: translateX(5px);
 }
+.aboutbanner{
+  padding-top:8rem;
+}
+.paracolor{
+  color:#666666;
+}
+.parafont{
+  font-size: 15px !important;
+}

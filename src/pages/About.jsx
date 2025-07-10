@@ -5,15 +5,37 @@ import aboutlogo from '../assets/images/aboutlogo.webp';
 function About() {
   return (
     <>
-    <Container className='pt-5'>
+    <Container className='aboutbanner'>
         <Row>
-            <Col xs={12} md={6}>
-<h2  className='pb-3 fw-semibold'>Who We Are</h2>
-<p>At Hair Zeal Professional, we are committed to revolutionizing hair care with innovative, salon-quality products designed for professionals and hair enthusiasts alike. Our formulations are crafted using cutting-edge science and high-quality natural ingredients to deliver exceptional results. Whether it’s hydration, repair, or protection, our products ensure your hair gets the care it truly deserves.</p>
-            </Col>
-             <Col xs={12} md={6}>
+              <Col xs={12} md={6}>
               <img src={aboutlogo} alt="logo" width='100%' height='90%'/>
              </Col>
+            <Col xs={12} md={6}>
+<h2  className='pb-3 fw-semibold'>Science-Backed. Technology-Driven</h2>
+<p className='paracolor' >We aren’t just bakers—we’re innovators.
+Ariha Foods operates with three applied patents, including:</p>
+<ul className='list-unstyled'>
+<li className="mb-3">
+  <div className="d-flex align-items-center mb-1">
+    <span
+      className="me-3 d-flex justify-content-center align-items-center"
+      style={{
+        width: "24px",
+        height: "24px",
+        borderRadius: "50%",
+      backgroundColor:"#FBF503",
+        color: "black",
+        fontSize: "14px"
+      }}
+    >
+      <i className="fas fa-check"></i>
+    </span>
+    <span className="fs-5 paracolor parafont">Freshly Baked Everyday</span>
+  </div>
+</li>
+</ul>
+            </Col>
+           
         </Row>
     </Container>
     <Container className='my-5'>
