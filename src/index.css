@@ -1,0 +1,66 @@
+@font-face {
+  font-family: poppin-regular;
+  src: url("./assets/font/Poppins/Poppins-Regular.ttf");
+}
+@font-face {
+  font-family: poppin-bold;
+  src: url("./assets/font/Poppins/Poppins-Bold.ttf");
+}
+@font-face {
+  font-family: JosefinSans-Regular;
+  src: url("./assets/font/Lato/JosefinSans-Regular.ttf");
+}
+body{
+  font-family: poppin-regular;
+}
+h1{
+  font-family: lato-bold;
+}
+.topbar{
+  padding: 0.7rem 0;
+  background-color: #FFFFFF;
+  color:#666666;
+  font-family: JosefinSans-Regular;
+
+}
+.truck-icon {
+  transform: scaleX(-1); 
+  fill: #FFFFFF;
+}
+.header {
+  color: #000000;
+ 
+}
+.navbar-toggler{
+  background-color: #593333;
+}
+.navbar-nav a{
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+   color: #FFFFFF;
+}
+.menu{
+  padding-right:20px;
+}
+.navbar {
+  box-shadow: 0px 2px 0px 0px rgba(0, 0, 0, 0.24);
+   background-color: #000000;
+  
+}
+.blackbutton{
+  background-color: #000000;
+  color: #FFFFFF;
+  font-size: 22px;
+  padding: 10px 35px;
+}
+
+ .cardsbutton{
+    width: 100%;
+    background-color: #000000;
+    color: #FFFFFF;
+  }
+  .sticky-sidebar {
+  position: sticky;
+  top: 80px; /* Adjust as per your header height */
+  z-index: 100;
+}
