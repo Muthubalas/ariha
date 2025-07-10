@@ -741,9 +741,11 @@ const imgpath="http://localhost:5000"
           <Card >
      
       <Card.Body>
-        <Card.Title>{item.title}</Card.Title>
-        <Card.Text>{item.meta_description} </Card.Text>
-         <Button variant=" blackbutton" id='blackbutton' onClick={()=>handleReadMore(item._id)}>Read more</Button>
+        <Card.Title className='blogtitle'>{item.title}</Card.Title>
+        <Button className="read" onClick={() => handleReadMore(item._id)}>
+  Read more → 
+</Button>
+
       </Card.Body>
     </Card>
         </Col>

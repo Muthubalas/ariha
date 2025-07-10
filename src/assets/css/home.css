@@ -286,3 +286,14 @@
 .parafont{
   font-size: 15px !important;
 }
+.read{
+  color: #00B207;
+  background-color: transparent !important;
+  border: none;
+  font-weight: 600;
+}
+.blogtitle{
+  color: #1A1A1A;
+  font-weight: 600;
+  font-size: 18px;
+}
