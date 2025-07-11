@@ -118,10 +118,10 @@
     height: auto;
   }
   .send{
-    background-color: #333333;
+    background-color: #181818;
     color: #FFFFFF;
     border: none;
-    border-radius: 10px;
+    border-radius: 50px;
   }
   /* General card styling */
 .custom-card {
@@ -296,4 +296,10 @@
   color: #1A1A1A;
   font-weight: 600;
   font-size: 18px;
+}
+.blogcontainer{
+  padding-top: 6rem;
+}
+.shopcontainer{
+   padding-top: 8rem;
 }

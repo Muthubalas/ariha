@@ -198,7 +198,6 @@ function Contact() {
     name: '',
     phone: '',
     email: '',
-    service: '',
     message: '',
   });
 
@@ -235,7 +234,7 @@ function Contact() {
         setSent(true);
         setSending(false);
         alert('Message sent successfully!');
-        setFormData({ name: '', phone: '', email: '', service: '', message: '' });
+        setFormData({ name: '', phone: '', email: '', message: '' });
         setValidated(false);
         console.log('Sending data:', formData);
       })
@@ -251,9 +250,9 @@ function Contact() {
       <h1>Contact us</h1>
       <div className="form my-5">
         <Form noValidate validated={validated} onSubmit={handleSubmit} className="text-start">
-         <Row className="my-5">
+         <Row className="my-5 align-items-stretch">
   {/* Left Side - Contact Info */}
-   <Col md={4} xs={12} className="mb-4">
+   <Col md={4} xs={12} className="mb-4 ">
     <div className="p-4 bg-white rounded shadow text-start h-100 d-flex flex-column justify-content-center">
       {/* Location */}
       <div className="mb-4 text-center">
@@ -283,7 +282,9 @@ function Contact() {
 
   {/* Right Side - Your Existing Form */}
   <Col md={8} xs={12}>
-    <div className="form">
+    <div className="form shadow p-4">
+      <h2>Just Say Hello!</h2>
+      <p className='py-3'>Do you fancy saying hi to me or you want to get started with your project and you need my help? Feel free to contact me.</p>
       <Form noValidate validated={validated} onSubmit={handleSubmit} className="text-start">
         <Row>
           <Col md={6} xs={12}>
@@ -314,7 +315,7 @@ function Contact() {
           </Col>
         </Row>
         <Row>
-          <Col md={6} xs={12}>
+          <Col md={12} xs={12}>
             <Form.Group className="mb-3">
               <Form.Label className="pb-3">Phone number*</Form.Label>
               <Form.Control
@@ -327,27 +328,12 @@ function Contact() {
               />
             </Form.Group>
           </Col>
-          <Col md={6} xs={12}>
-            <Form.Group className="mb-3">
-              <Form.Label className="pb-3">Product name</Form.Label>
-              <Form.Select
-                name="service"
-                value={formData.service}
-                onChange={handleChange}
-                required
-              >
-                <option value="">Open this select menu</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-              </Form.Select>
-            </Form.Group>
-          </Col>
+        
         </Row>
         <Row>
           <Col md={12} xs={12}>
             <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-              <Form.Label>Example textarea</Form.Label>
+              <Form.Label>Message</Form.Label>
               <Form.Control
                 as="textarea"
                 rows={5}
@@ -360,7 +346,7 @@ function Contact() {
         </Row>
         <Row>
           <Col md={4} xs={12}>
-            <button className="send px-4 py-3" disabled={sending}>
+            <button className="send px-5 py-3" disabled={sending}>
               {sending ? 'Sending...' : 'Send Message'}
             </button>
           </Col>

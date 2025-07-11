@@ -12,14 +12,16 @@ function ShopPage() {
     priceRange: [0, 1000],
   });
   const [allProducts, setAllProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true); 
   const [error, setError] = useState(null); 
     useEffect(() => {
     getAllProducts()
       .then((res) => {
         console.log("products=>",res.data);
-        
+        const uniqueCategories = [...new Set(res.data.map(p => p.category))];
         setAllProducts(res.data);
+        setCategories(uniqueCategories);
         setLoading(false);
       })
       .catch((err) => {
@@ -41,10 +43,10 @@ function ShopPage() {
   });
 
   return (
-    <div className="container-fluid my-5">
+    <div className="container-fluid shopcontainer">
       <div className="row">
         <div className="col-md-3 ">
-          <Sidebar filters={filters} setFilters={setFilters} />
+          <Sidebar filters={filters} setFilters={setFilters} categories={categories} />
         </div>
         <div className="col-md-9">
           <ProductList products={filteredProducts} />

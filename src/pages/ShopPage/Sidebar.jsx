@@ -1,20 +1,21 @@
 import React from 'react';
 
-function Sidebar({ filters, setFilters }) {
+function Sidebar({ filters, setFilters,categories }) {
   return (
     <div className="p-3 border rounded shadow-sm bg-white ">
       <h5>Filter</h5>
 
       <div className="mb-3">
         <label className="form-label fw-bold">Category</label>
-        <select
+           <select
           className="form-select"
           value={filters.category}
           onChange={(e) => setFilters(prev => ({ ...prev, category: e.target.value }))}
         >
           <option value="">All</option>
-          <option value="serum">Serum</option>
-          <option value="shampoo">Shampoo</option>
+          {categories.map((cat, index) => (
+            <option key={index} value={cat}>{cat}</option>
+          ))}
         </select>
       </div>
 

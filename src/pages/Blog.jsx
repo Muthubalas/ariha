@@ -25,17 +25,19 @@ function Blog() {
 
   return (
     <>
-      <Container className='my-5'>
+      <Container className='my-5 blogcontainer'>
       
  <Row className='blogcard'>
   {recentBlogs.map((item,index)=>(
         <Col xs={12} md={3} key={index} className=' mt-3'>
           <Card >
-      <Card.Img variant="top" src={`http://localhost:5000/blog/${item.banner_image}`}/>
+      <Card.Img variant="top" src={`http://localhost:5000${item.banner_image}`}/>
       <Card.Body>
         <Card.Title>{item.title}</Card.Title>
         <Card.Text>{item.meta_description} </Card.Text>
-         <Button variant=" blackbutton" id='blackbutton' onClick={()=>handleReadMore(item._id)}>Read more</Button>
+         <Button className="read ps-0" onClick={() => handleReadMore(item._id)}>
+          Read more → 
+        </Button>
       </Card.Body>
     </Card>
         </Col>
