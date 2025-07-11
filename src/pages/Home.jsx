@@ -742,7 +742,7 @@ const imgpath="http://localhost:5000"
      
       <Card.Body>
         <Card.Title className='blogtitle'>{item.title}</Card.Title>
-        <Button className="read" onClick={() => handleReadMore(item._id)}>
+        <Button className="read ps-0" onClick={() => handleReadMore(item._id)}>
   Read more → 
 </Button>
 
