@@ -9,7 +9,7 @@ function ShopPage() {
   const [filters, setFilters] = useState({
     category: '',
     availability: '',
-    priceRange: [0, 1000],
+    priceRange: [0, 5000],
   });
   const [allProducts, setAllProducts] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -41,7 +41,9 @@ function ShopPage() {
     const matchPrice = product.price >= filters.priceRange[0] && product.price <= filters.priceRange[1];
     return matchCategory && matchAvailability && matchPrice;
   });
-
+console.log("Filters =>", filters);
+console.log("All Products =>", allProducts);
+console.log("Filtered Products =>", filteredProducts);
   return (
     <div className="container-fluid shopcontainer">
       <div className="row">

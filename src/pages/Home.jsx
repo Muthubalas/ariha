@@ -71,11 +71,16 @@ import 'swiper/css/navigation';
 
 function Home() {
   const [products, setProducts] = useState([]);
+   const [productdet, setProductdet] = useState([]);
+ 
+   const recentProductdet = [...productdet]
+       .sort((a, b) => new Date(b.date) - new Date(a.date))
+      .slice(0, 6);
   const [category, setCategory] = useState([]);
   const [addedItems, setAddedItems] = useState(new Set());
   const { addToCart } = useCart();
    const [selectedProduct, setSelectedProduct] = useState(null);
-const api1="https://backendapi.memoriessalon.in/list-blog"
+
   const product = [
     {
       id: 1,
@@ -115,23 +120,17 @@ const api1="https://backendapi.memoriessalon.in/list-blog"
     },
   ];
   
-  useEffect(() => {
-
-const fetchData=async()=>{
-  try{
-    const [res1,res2]=await Promise.all([
-      getAllProducts()
-    ])
-   
-    setProducts(res1.data);
-    setCategory(res2.data);
-  }
-  catch (err) {
-    console.error('Error fetching data:', err);
-  }
-};
-fetchData();
+useEffect(() => {
+  getAllProducts()
+    .then((res) => {
+      setProductdet(res.data);
+      if (res.data.length > 0) {
+        setSelectedProduct(res.data[0]); // 👈 Set the first product by default
+      }
+    })
+    .catch((err) => console.error(err));
 }, []);
+
 const uniqueCategoryProducts = [];
 const seenCategories = new Set();
 
@@ -159,6 +158,20 @@ sortedProducts.forEach((item) => {
    
     .catch(console.error);
     },[])
+
+     const handleAddprod = (item) => {
+    addToCart(item);
+    setAddedItems((prev) => new Set(prev).add(item._id));
+
+    // Optional: Revert back to "Add to Cart" after 3 seconds
+    setTimeout(() => {
+      setAddedItems((prev) => {
+        const updated = new Set(prev);
+        updated.delete(item._id);
+        return updated;
+      });
+    }, 3000);
+  };
 
     const handleReadMore=(id)=>{
       console.log("id",id)
@@ -380,76 +393,78 @@ const imgpath="http://localhost:5000"
 <div className="deal">
 <Container className='py-5 my-5'>
 <h2>Hot Deals</h2>
- <Row>
-        {/* Left panel */}
-       <Col md={4} sm={12}>
-  <div className="p-3 border rounded h-100 d-flex flex-column" style={{ height: '100%' }}>
-    {selectedProduct ? (
-      <>
-        {/* Image Section: 75% height */}
-        <div style={{ flex: '0 0 75%' }}>
-          <img
-            src={selectedProduct.image}
-            alt={selectedProduct.name}
-            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-            className="mb-3"
-          />
-        </div>
+<Row>
+      {/* Left panel */}
+      <Col md={4} sm={12}>
+        <div className="p-3 border rounded h-100 d-flex flex-column">
+          {selectedProduct ? (
+            <>
+              {/* Image Section */}
+              <div style={{ flex: '0 0 75%' }}>
+                <img
+                  src={`${imgpath}${selectedProduct.product_image}`}
+                  alt={selectedProduct.name}
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  className="mb-3"
+                />
+              </div>
 
-        {/* Info Section: 25% height */}
-        <div
-          className="d-flex flex-column justify-content-center text-center"
-          style={{ flex: '0 0 25%' }}
-        >
-            <Button className='yellowbutton mb-2 p-2' size="sm">
-           Add to Cart  <IoBagHandleOutline/>
-          </Button>
-          <h4 className="mb-2 text-dark fw-bold">{selectedProduct.name}</h4>
-          <p className="mb-2">₹{selectedProduct.price}</p>
-        
-        </div>
-      </>
-    ) : (
-      <p>Select a product to view details here</p>
-    )}
-  </div>
-</Col>
-
-
-        {/* Right grid with 2 rows × 3 cards */}
-        <Col md={8} sm={12}>
-          <Row>
-            {product.map((product) => (
-              <Col md={4} sm={6} xs={12} className="mb-4" key={product.id}>
-                <Card
-                  className="h-100"
-                  style={{ cursor: 'pointer' }}
-                  onClick={() => setSelectedProduct(product)}
+              {/* Info Section */}
+              <div className="d-flex flex-column justify-content-center text-center">
+                <Button className="yellowbutton m-3 p-2" size="sm"
+                 onClick={() => handleAddprod(selectedProduct)}
+ 
+      title={addedItems.has(selectedProduct._id) ? 'Added Successfully' : 'Add to Cart'}
                 >
-                  <Card.Img
-                  className='pt-2'
-                    variant="top"
-                    src={product.image}
-                    style={{ height: '150px', objectFit: 'cover' }}
-                  />
-                  <Card.Body>
-  <div className="d-flex justify-content-between align-items-center">
-    <div>
-      <Card.Title className="mb-1 product">{product.name}</Card.Title>
-      <Card.Text className="mb-0 price">₹{product.price}</Card.Text>
-    </div>
-    <Button className="shopcart" size="sm">
-      <IoBagHandleOutline />
-    </Button>
-  </div>
-</Card.Body>
+                 <IoBagHandleOutline />
+                </Button>
+                <h4 className="mb-2 text-dark fw-bold">{selectedProduct.name}</h4>
+                <p className="mb-2">₹{selectedProduct.price}</p>
+              </div>
+            </>
+          ) : (
+            <p className="text-muted">Select a product to view details here</p>
+          )}
+        </div>
+      </Col>
 
-                </Card>
-              </Col>
-            ))}
-          </Row>
-        </Col>
-      </Row>
+      {/* Right panel - product grid */}
+      <Col md={8} sm={12}>
+        <Row>
+          {recentProductdet.map((product) => (
+            <Col md={4} sm={6} xs={12} className="mb-4" key={product._id}>
+              <Card
+                className="h-100 shadow-sm"
+                
+              >
+                <Card.Img
+                  className="pt-2"
+                  variant="top"
+                  src={`${imgpath}${product.product_image}`}
+                  style={{ height: '150px', objectFit: 'cover',cursor: 'pointer' }}
+                  onClick={() => setSelectedProduct(product)}
+                />
+                <Card.Body>
+                  <div className="d-flex justify-content-between align-items-center">
+                    <div>
+                      <Card.Title className="mb-1 product">{product.name}</Card.Title>
+                      <Card.Text className="mb-0 price">₹{product.price}</Card.Text>
+                    </div>
+                    <Button className="shopcart" size="sm"
+                     onClick={() => handleAddprod(product)}
+ 
+                    >
+                      <IoBagHandleOutline />
+                    </Button>
+                  </div>
+                </Card.Body>
+              </Card>
+            </Col>
+          ))}
+        </Row>
+      </Col>
+    </Row>
+
 </Container>
 </div>
  <Container>
@@ -469,59 +484,7 @@ const imgpath="http://localhost:5000"
       </Swiper>
     </Container>
 
-{/* <Container className='cards'>
-  <h2>Trending Now</h2>
-<Row className='cardsrow'>
-{products.map((item) => (
-   <Col key={item.id} xs={12} sm={6} md={4} lg={3} className='cardscol'> 
-   <Card className='mt-2'>
-     <Link to={`/product/${item._id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
- <Card.Img variant="top"   src={`${imgpath}${item.product_image}`} alt={item.name} />
- </Link>
- <Card.Body>
-   <Card.Title className='bold'>{item.name}</Card.Title>
-   <Card.Text>
-   {item.category}
-  <h5 className='bold' style={{paddingTop:'15px'}}>{item.price}</h5> 
-   </Card.Text>
-  <Button
-  variant={addedItems.has(item._id) ? "success" : "primary"}
-  className='cardsbutton'
-  onClick={() => {
-    addToCart(item);
-    setAddedItems(prev => new Set(prev).add(item._id));
-  }}
-  disabled={addedItems.has(item._id)}
->
-  {addedItems.has(item._id) ? "Added Successfully" : "Add to cart"}
-</Button>
 
- </Card.Body>
-</Card>
-
-   </Col>
-    ))}
-     
-      </Row>
-      
-    
-    </Container> */}
-   
-    {/* <Container className='cards'>
-  <h2>Shop by category</h2>
-  <Row className='cardsrow'>
-    {uniqueCategoryProducts.map((item) => (
-      <Col key={item._id} xs={12} sm={6} md={4} lg={3} className='cardscol'>
-        <Card className='mt-2'>
-            <Link to={`/product`} style={{ textDecoration: 'none', color: 'inherit' }}>
-          <Card.Img variant="top" src={`${imgpath}${item.product_image}`} alt={item.name} />
-          </Link>
-          <h5 className="overlay-text">{item.category}</h5>
-        </Card>
-      </Col>
-    ))}
-  </Row>
-</Container> */}
 
 
     <Container className='cards my-5 py-5'>
@@ -615,9 +578,9 @@ const imgpath="http://localhost:5000"
   <p className="mb-0 ms-5 quespara">Supplying to homes, cafes, and kitchens nationwide.</p>
 </li>
    </ul>
-    <button className="shop-now-button">
+   <Link to="/shop"><button className="shop-now-button">
   Shop Now <span className="arrow">→</span>
-</button>
+</button></Link> 
 
         </Col>
       </Row>

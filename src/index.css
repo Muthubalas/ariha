@@ -39,6 +39,11 @@ h1{
   padding-right: 0.5rem;
    color: #FFFFFF;
 }
+.navbar-nav a:hover{
+   color: #FFFFFF;
+   opacity: 0.5;
+}
+
 .menu{
   padding-right:20px;
 }

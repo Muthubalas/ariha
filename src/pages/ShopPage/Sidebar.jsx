@@ -38,7 +38,7 @@ function Sidebar({ filters, setFilters,categories }) {
           type="range"
           className="form-range"
           min="0"
-          max="1000"
+          max="5000"
           step="100"
           value={filters.priceRange[1]}
           onChange={(e) => setFilters(prev => ({ ...prev, priceRange: [0, +e.target.value] }))}

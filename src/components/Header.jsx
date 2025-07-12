@@ -9,7 +9,7 @@ import Modal from 'react-bootstrap/Modal';
 import { useCart } from '../pages/context/Cart';
 import { FaFacebookF, FaInstagram, FaLinkedinIn, FaYoutube } from "react-icons/fa";
 import logo from '../assets/images/logo.png';
-import { BsTelephone } from "react-icons/bs";
+import { BsTelephone,BsWhatsapp, BsPlus, BsDash } from "react-icons/bs";
 
 function Header() {
   const { cartItems, getTotalItems, updateCartItem } = useCart();
@@ -17,7 +17,7 @@ function Header() {
 
   const handleClose = () => setShowCart(false);
   const handleShow = () => setShowCart(true);
-
+  const imgpath = "http://localhost:5000";
   return (
     <>
       {/* Fixed Header */}
@@ -124,87 +124,124 @@ function Header() {
       </div>
 
       {/* 🔲 Cart Modal */}
-      <Modal show={showCart} onHide={handleClose} size="lg">
-        <Modal.Header closeButton>
-          <Modal.Title>Your Cart</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {cartItems.length === 0 ? (
-            <p>Your cart is empty.</p>
-          ) : (
-            <Table striped bordered hover responsive>
-              <thead>
-                <tr>
-                  <th>S.No</th>
-                  <th>Product</th>
-                  <th>Qty</th>
-                  <th>Cost (₹)</th>
-                  <th>Total (₹)</th>
-                </tr>
-              </thead>
-              <tbody>
-                {cartItems.map((item, index) => (
-                  <tr key={item._id}>
-                    <td>{index + 1}</td>
-                    <td>{item.name}</td>
-                    <td>
-                      <input
-                        type="number"
-                        value={item.quantity}
-                        min="1"
-                        style={{ width: "60px" }}
-                        onChange={(e) =>
-                          updateCartItem(item._id, "quantity", parseInt(e.target.value) || 1)
-                        }
-                      />
-                    </td>
-                    <td>
-                      <input
-                        type="number"
-                        value={item.price}
-                        min="0"
-                        style={{ width: "80px" }}
-                        onChange={(e) =>
-                          updateCartItem(item._id, "price", parseFloat(e.target.value) || 0)
-                        }
-                      />
-                    </td>
-                    <td>{item.quantity * item.price}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
-          )}
-          {cartItems.length > 0 && (
-            <h5 className="text-end">
-              Grand Total: ₹{cartItems.reduce((total, item) => total + item.quantity * item.price, 0)}
-            </h5>
-          )}
-        </Modal.Body>
-        <Modal.Footer>
-          {cartItems.length > 0 && (
-            <Button
-              variant="success"
-              onClick={() => {
-                const messageLines = cartItems.map(
-                  (item, index) =>
-                    `${index + 1}. ${item.name} × ${item.quantity} = ₹${item.quantity * item.price}`
-                );
-                const grandTotal = cartItems.reduce(
-                  (total, item) => total + item.quantity * item.price,
-                  0
-                );
-                const finalMessage =
-                  `Welcome to HairZeal\n\nOrder Details:\n\n${messageLines.join("\n")}\n\nGrand Total: ₹${grandTotal}`;
-                const whatsappURL = `https://wa.me/919047373960?text=${encodeURIComponent(finalMessage)}`;
-                window.open(whatsappURL, '_blank');
-              }}
-            >
-              Checkout on WhatsApp
-            </Button>
-          )}
-        </Modal.Footer>
+
+  <Modal show={showCart} onHide={handleClose} size="lg">
+      
+      <Modal.Body style={{ backgroundColor: '#6E9556', color: 'white',borderTopLeftRadius:'20px',borderTopRightRadius:'20px'}}>
+          <Button
+      variant="light"
+      size="sm"
+      onClick={handleClose}
+      style={{
+        position: 'absolute',
+        top: '10px',
+        right: '10px',
+        borderRadius: '50%',
+        width: '30px',
+        height: '30px',
+        padding: 0,
+      }}
+    >
+      &times;
+    </Button>
+  <div className="text-center mb-3">
+    <BsWhatsapp size={24} className="bg-white text-success rounded-circle p-1" />
+    <h5 className="mt-2 mb-0">Shopping Cart</h5>
+    <hr className="border-white opacity-100" />
+  </div>
+
+ {cartItems.map((item) => (
+  <div
+    key={item._id}
+    className="d-flex align-items-center justify-content-between mb-3"
+    style={{ gap: '10px' }}
+  >
+    {/* Image */}
+    <img
+      src={`${imgpath}${item.product_image}` || 'https://via.placeholder.com/40'}
+      alt={item.name}
+      className="rounded"
+      style={{ width: '50px', height: '50px', objectFit: 'cover' }}
+    />
+
+    {/* Name and Quantity */}
+    <div className="flex-grow-1 ms-2">
+      <div style={{ fontSize: '14px', fontWeight: 500 }}>{item.name}</div>
+    </div>
+
+    {/* Quantity Controls */}
+    <div className="d-flex align-items-center">
+      <Button
+        size="sm"
+        variant="light"
+        className="text-dark p-1"
+        onClick={() => updateCartItem(item._id, 'quantity', Math.max(1, item.quantity - 1))}
+      >
+        <BsDash />
+      </Button>
+      <span className="mx-2">{item.quantity}</span>
+      <Button
+        size="sm"
+        variant="light"
+        className="text-dark p-1"
+        onClick={() => updateCartItem(item._id, 'quantity', item.quantity + 1)}
+      >
+        <BsPlus />
+      </Button>
+    </div>
+ {/* Price */}
+    <div className="fw-bold text-end" style={{ minWidth: '60px' }}>
+      ₹{item.price}
+    </div>
+ 
+  </div>
+))}
+
+
+  {/* Footer Branding and Total */}
+  <div className="d-flex justify-content-between align-items-center mt-4">
+    <img
+      src={logo}
+      alt="Ariha Foods"
+      style={{ height: '30px' }}
+    /> 
+    <div className="fw-bold fs-5">Total ₹{cartItems.reduce((total, item) => total + item.quantity * item.price, 0)}</div>
+  </div>
+
+  <p className="mt-2 small"
+   onClick={() => {
+      const messageLines = cartItems.map(
+        (item, index) =>
+          `${index + 1}. ${item.name} × ${item.quantity} = ₹${item.quantity * item.price}`
+      );
+      const grandTotal = cartItems.reduce(
+        (total, item) => total + item.quantity * item.price,
+        0
+      );
+      const finalMessage =
+        `Welcome to Ariha Foods\n\nOrder Details:\n\n${messageLines.join(
+          '\n'
+        )}\n\nGrand Total: ₹${grandTotal}`;
+      const whatsappURL = `https://wa.me/919047373960?text=${encodeURIComponent(finalMessage)}`;
+      window.open(whatsappURL, '_blank');
+    }}
+  >
+    <strong>Note:</strong> Place your orders through WhatsApp <BsWhatsapp />
+  </p>
+</Modal.Body>
+
+     <Modal.Footer style={{ backgroundColor: '#6E9556', borderTop: 'none',borderBottomLeftRadius:'20px',borderBottomRightRadius:'20px'}}>
+  <Button
+    variant="light"
+    className="w-100 fw-bold text-dark rounded-pill"
+   
+  >
+    ORDER NOW
+  </Button>
+</Modal.Footer>
+
       </Modal>
+
     </>
   );
 }
