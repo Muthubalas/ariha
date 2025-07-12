@@ -14,9 +14,38 @@ import { BsTelephone,BsWhatsapp, BsPlus, BsDash } from "react-icons/bs";
 function Header() {
   const { cartItems, getTotalItems, updateCartItem } = useCart();
   const [showCart, setShowCart] = useState(false);
-
+  const [customerName, setCustomerName] = useState('');
+  const [customerPhone, setCustomerPhone] = useState('');
   const handleClose = () => setShowCart(false);
   const handleShow = () => setShowCart(true);
+  const handleRazorpayPayment = () => {
+    const totalAmount = cartItems.reduce(
+  (total, item) => total + item.quantity * item.price,
+  0
+);
+  const options = {
+    key: "YOUR_TEST_KEY_ID", // From dashboard
+   amount: totalAmount * 100, // ₹500.00 in paise
+    currency: "INR",
+    name: "Ariha Foods",
+    description: "Order Payment",
+    image: "/logo.png",
+    handler: function (response) {
+      alert("Payment successful! Payment ID: " + response.razorpay_payment_id);
+    },
+    prefill: {
+      name: customerName,
+        contact: customerPhone
+    },
+    theme: {
+      color: "#6E9556"
+    }
+  };
+
+  const rzp = new window.Razorpay(options);
+  rzp.open();
+};
+
   const imgpath = "http://localhost:5000";
   return (
     <>
@@ -196,7 +225,10 @@ function Header() {
  
   </div>
 ))}
+ 
+        
 
+      
 
   {/* Footer Branding and Total */}
   <div className="d-flex justify-content-between align-items-center mt-4">
@@ -207,6 +239,21 @@ function Header() {
     /> 
     <div className="fw-bold fs-5">Total ₹{cartItems.reduce((total, item) => total + item.quantity * item.price, 0)}</div>
   </div>
+   {/* Customer Details Form */}
+  <Row className='mt-2' id='formrazor'>
+    <Col md={6} sm={12}>
+      <Form.Group className="mb-3">
+            <Form.Label style={{ color: 'white' }}>Customer Name</Form.Label>
+            <Form.Control type="text" placeholder="Enter your name" value={customerName} onChange={(e) => setCustomerName(e.target.value)} />
+          </Form.Group>
+    </Col>
+    <Col md={6} sm={12}>
+        <Form.Group className="mb-3">
+            <Form.Label style={{ color: 'white' }}>Phone Number</Form.Label>
+            <Form.Control type="tel" placeholder="Enter your phone number" value={customerPhone} onChange={(e) => setCustomerPhone(e.target.value)} />
+          </Form.Group>
+    </Col>
+  </Row>
 
   <p className="mt-2 small"
    onClick={() => {
@@ -219,9 +266,11 @@ function Header() {
         0
       );
       const finalMessage =
-        `Welcome to Ariha Foods\n\nOrder Details:\n\n${messageLines.join(
-          '\n'
-        )}\n\nGrand Total: ₹${grandTotal}`;
+        `Welcome to Ariha Foods\n\n` +
+  `Customer Name: ${customerName}\n` +
+  `Phone Number: ${customerPhone}\n\n` +
+  `Order Details:\n${messageLines.join('\n')}\n\n` +
+  `Grand Total: ₹${grandTotal}`;
       const whatsappURL = `https://wa.me/919047373960?text=${encodeURIComponent(finalMessage)}`;
       window.open(whatsappURL, '_blank');
     }}
@@ -234,7 +283,7 @@ function Header() {
   <Button
     variant="light"
     className="w-100 fw-bold text-dark rounded-pill"
-   
+   onClick={handleRazorpayPayment}
   >
     ORDER NOW
   </Button>

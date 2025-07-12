@@ -225,7 +225,7 @@ function Contact() {
 
     emailjs
       .send(
-        'service_r2h273n',
+        'service_ogarmcr',
         'template_nhoy05f',
         formData,
         'cTHXHzBfD_w8wvixJ'

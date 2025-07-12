@@ -307,3 +307,11 @@
   background-color: transparent;
   border:none;
 }
+#formrazor .form-control{
+  height:35px;
+}
+@media (min-width: 992px) {
+    .modal-lg, .modal-xl {
+        --bs-modal-width: 500px;
+    }
+}
