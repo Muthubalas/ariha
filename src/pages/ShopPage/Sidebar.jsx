@@ -1,6 +1,16 @@
 import React from 'react';
 
-function Sidebar({ filters, setFilters,categories }) {
+function Sidebar({ filters, setFilters,categories,tags }) {
+    const toggleTag = (tag) => {
+    setFilters(prev => {
+      const alreadySelected = prev.tags.includes(tag);
+      const updatedTags = alreadySelected
+        ? prev.tags.filter(t => t !== tag)
+        : [...prev.tags, tag];
+      return { ...prev, tags: updatedTags };
+    });
+  };
+
   return (
     <div className="p-3 border rounded shadow-sm bg-white ">
       <h5>Filter</h5>
@@ -44,6 +54,26 @@ function Sidebar({ filters, setFilters,categories }) {
           onChange={(e) => setFilters(prev => ({ ...prev, priceRange: [0, +e.target.value] }))}
         />
         <div>₹0 - ₹{filters.priceRange[1]}</div>
+      </div>
+
+        <div className="mb-3">
+        <label className="form-label fw-bold">Tags</label>
+        <div className="d-flex flex-wrap">
+          {tags.map((tag, index) => (
+            <div className="form-check me-3" key={index}>
+              <input
+                className="form-check-input"
+                type="checkbox"
+                id={`tag-${index}`}
+                checked={filters.tags.includes(tag)}
+                onChange={() => toggleTag(tag)}
+              />
+              <label className="form-check-label" htmlFor={`tag-${index}`}>
+                {tag}
+              </label>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

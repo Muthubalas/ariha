@@ -7,18 +7,7 @@ export const useCart = () => useContext(CartContext);
 export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
 
-  // const addToCart = (item) => {
-  //   setCartItems((prev) => {
-  //     const exist = prev.find((x) => x._id === item._id);
-  //     if (exist) {
-  //       return prev.map((x) =>
-  //         x._id === item._id ? { ...x, quantity: x.quantity + item.quantity} : x
-  //       );
-  //     } else {
-  //       return [...prev, { ...item }];
-  //     }
-  //   });
-  // };
+ 
   const addToCart = (item) => {
   const qty = item.quantity || 1; // default to 1 if not passed
 

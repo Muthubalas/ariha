@@ -10,7 +10,9 @@ function ShopPage() {
     category: '',
     availability: '',
     priceRange: [0, 5000],
+     tags: []
   });
+  const [tags, setTags] = useState([]);
   const [allProducts, setAllProducts] = useState([]);
   const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true); 
@@ -18,10 +20,16 @@ function ShopPage() {
     useEffect(() => {
     getAllProducts()
       .then((res) => {
+         const fetchedProducts = res.data;
         console.log("products=>",res.data);
-        const uniqueCategories = [...new Set(res.data.map(p => p.category))];
-        setAllProducts(res.data);
+        const uniqueCategories = [...new Set(fetchedProducts.map(p => p.category))];
+           const tagSet = new Set();
+      fetchedProducts.forEach(p => {
+        (p.tag || []).forEach(t => tagSet.add(t));
+      });
+        setAllProducts(fetchedProducts);
         setCategories(uniqueCategories);
+         setTags([...tagSet]);
         setLoading(false);
       })
       .catch((err) => {
@@ -39,16 +47,19 @@ function ShopPage() {
         ? product.stock === 0
         : true;
     const matchPrice = product.price >= filters.priceRange[0] && product.price <= filters.priceRange[1];
-    return matchCategory && matchAvailability && matchPrice;
+      const matchTags = filters.tags.length === 0
+      ? true
+    : filters.tags.every(tag => product.tag?.includes(tag));
+    return matchCategory && matchAvailability && matchPrice && matchTags;
   });
 console.log("Filters =>", filters);
 console.log("All Products =>", allProducts);
 console.log("Filtered Products =>", filteredProducts);
   return (
     <div className="container-fluid shopcontainer">
-      <div className="row">
+      <div className="row mb-5">
         <div className="col-md-3 ">
-          <Sidebar filters={filters} setFilters={setFilters} categories={categories} />
+          <Sidebar filters={filters} setFilters={setFilters} categories={categories} tags={tags}/>
         </div>
         <div className="col-md-9">
           <ProductList products={filteredProducts} />
