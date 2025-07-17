@@ -169,9 +169,18 @@
 .yellowbutton{
   background-color: #FBF503;
   border:1px solid #A1A0A0;
+  border-radius: 50px;
+  font-weight: 600;
+}
+.yellowbutton a{
+
   color: #000000;
   border-radius: 50px;
   font-weight: 600;
+}
+.yellowbutton:hover{
+
+ background-color: #FBF503 !important;
 }
 .swiper {
   width: 100%;
